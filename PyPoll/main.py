@@ -1,70 +1,50 @@
-# import os and csv lib to load data 
-import os
+# import os and csv
 import csv
 
-#input file name - to be used later for other files in same dir location 
-file_name=input("Input Voter File (*.csv):")
-
-# for file location 
-Vote_data = os.path.join("raw_data", file_name)
-
-
-# open the file and loop over the fhd, update Revenue=[] and Months=[]
+#input file 
+file_to_load = "election_data_2.csv"
+file_to_output = "election_data_2.txt"
 
 Candidates=[]
 
-with open(Vote_data, newline="") as csvfile:
-    csv_reader = csv.reader(csvfile, delimiter=",")
+with open(file_to_load, newline="") as election_data:
+    csv_reader = csv.reader(election_data, delimiter=",")
 
-    # Skip csv headers  
+    # Skip csv header
     next(csv_reader, None)
 
-    # Loop over fh
+    # Loop 
     for row in csv_reader:
         Candidates.append(row[2]) # Update candidate list
 
 
-# finding vote summary
+#print total
 total_votes=len(Candidates)
-cand_list=set(Candidates)
-cand_list=[i for i in cand_list]
-vote_counts=[Candidates.count(i) for i in cand_list]
-vote_percent= [((Candidates.count(i)/total_votes)*100) for i in cand_list]
+c_list=set(Candidates)
+c_list=[i for i in c_list]
+vote_counts=[Candidates.count(i) for i in c_list]
+vote_percent= [((Candidates.count(i)/total_votes)*100) for i in c_list]
 vote_percent= [round(i,3) for i in vote_percent]
 
 max_vote=max(vote_counts)
 
-
 mx,idx = max( (vote_counts[i],i) for i in range(len(vote_counts)) )
 
-wins=cand_list[idx]
+wins=c_list[idx]
         
-    
-# printing vote summary    
+# printing summary  
 print('Election Results')
 print('-------------------------')
 print('Total Votes: ' + str(total_votes) )
 print('-------------------------')
 
-cand_num=0
-for i in cand_list:
-    print(i + ': ' + str(vote_percent[cand_num])+'% '+ '(' + str(vote_counts[cand_num]) + ')' )
-    cand_num+=1
+c_num=0
+for i in c_list:
+    print(i + ': ' + str(vote_percent[c_num])+'% '+ '(' + str(vote_counts[c_num]) + ')' )
+    c_num+=1
 
 print('-------------------------')
 
 print('Winner: ' + str(wins)) 
 
 print('-------------------------')
-Input Voter File (*.csv):election_data_2.csv
-Election Results
--------------------------
-Total Votes: 3521001
--------------------------
-Correy: 20.0% (704200)
-O'Tooley: 3.0% (105630)
-Khan: 63.0% (2218231)
-Li: 14.0% (492940)
--------------------------
-Winner: Khan
--------------------------
